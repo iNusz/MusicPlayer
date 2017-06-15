@@ -10,24 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.seunghoshin.android.musicplayer_2.domain.Music;
 import com.seunghoshin.android.musicplayer_2.dummy.DummyContent;
 import com.seunghoshin.android.musicplayer_2.dummy.DummyContent.DummyItem;
 
 
-public class ItemFragment extends Fragment {
+public class ListFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
 
-    public ItemFragment() {
+    public ListFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ItemFragment newInstance(int columnCount) {
-        ItemFragment fragment = new ItemFragment();
+    public static ListFragment newInstance(int columnCount) {
+        ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -57,7 +58,11 @@ public class ItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            Music music = Music.getInstance();
+            music.loader(getContext());
+
+            ListAdapter adapter = new ListAdapter(music.getItems(), mListener);
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }

@@ -1,16 +1,17 @@
 package com.seunghoshin.android.musicplayer_2;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.seunghoshin.android.musicplayer_2.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity implements
-        ItemFragment.OnListFragmentInteractionListener{
+        ListFragment.OnListFragmentInteractionListener, PermissionControl.CallBack{
 
     FrameLayout layout;
 
@@ -18,10 +19,21 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setView();
-        setFragment(ItemFragment.newInstance(1)); // 목록 프래그먼트  , ()숫자는 컬럼의 형태 , 2,3 2줄, 3줄 로 나누어짐
+        PermissionControl.checkPermission(this);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionControl.onResult(this, requestCode, grantResults);
+    }
+
+
+    @Override
+    public void init(){
+        setView();
+        setFragment(ListFragment.newInstance(1)); // 목록 프래그먼트  , ()숫자는 컬럼의 형태 , 2,3 2줄, 3줄 로 나누어짐
+    }
 
     private void setView(){
         layout = (FrameLayout) findViewById(R.id.layout);

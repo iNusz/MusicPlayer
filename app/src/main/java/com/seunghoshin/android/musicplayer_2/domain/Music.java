@@ -21,7 +21,7 @@ public class Music {
         items = new HashSet<>();
     }
 
-    public Music getInstance() {
+    public static Music getInstance() {
         if (instance == null)
             instance = new Music();
         return instance;
@@ -77,10 +77,10 @@ public class Music {
 
     // todo Set이 정상적으로 중복값을 허용하지 않도록 어떤함수를 오버라이드해서 구현하세요
     public class Item {
-        String id;
-        String albumId;
-        String artist;
-        String title;
+        public String id;
+        public String albumId;
+        public String artist;
+        public String title;
 
         Uri musicUri;
         Uri albumArt;

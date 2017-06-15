@@ -1,6 +1,24 @@
 # Music Player
 
 
+## Permission
+
+
+권한을 설정해준다.
+
+
+##### Manifaest
+
+
+만약에 Write, Read 권한이 필요하다면 Write권한만 적어주면 된다. 그 이유는 Write권한이 더 상위에 있기 때문이다.
+
+
+
+```xml
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+```
+
+
 
 ## Music
 
