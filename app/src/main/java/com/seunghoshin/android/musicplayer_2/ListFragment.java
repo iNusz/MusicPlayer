@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.seunghoshin.android.musicplayer_2.domain.Music;
-import com.seunghoshin.android.musicplayer_2.dummy.DummyContent;
 import com.seunghoshin.android.musicplayer_2.dummy.DummyContent.DummyItem;
 
 

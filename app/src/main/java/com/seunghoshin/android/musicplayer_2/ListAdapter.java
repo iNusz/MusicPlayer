@@ -10,6 +10,8 @@ import com.seunghoshin.android.musicplayer_2.ListFragment.OnListFragmentInteract
 import com.seunghoshin.android.musicplayer_2.domain.Music;
 import com.seunghoshin.android.musicplayer_2.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,17 +22,15 @@ import java.util.Set;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     private final OnListFragmentInteractionListener mListener;
-    private final Set<Music.Item> mValues;
 
     // 데이터 저장소
-    private final Music.Item datas[];
+    private final List<Music.Item> datas;
 
     public ListAdapter(Set<Music.Item> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
         mListener = listener;
 
-        // set에서 데이터 꺼내서 사용을 하는데 index를 필요로 하는경우 array 에 담는다
-        datas = (Music.Item[]) mValues.toArray();
+        // List에서 데이터 꺼내서 사용을 하는데 index를 필요로 하는경우 array 에 담는다
+        datas = new ArrayList<>(items);
 
        // mValues.toArray(datas); // 안에 공간이 확정된 list를 넣어준다 , 원래는 서로타입이 안맞는데 맞춰주는 것이다
     }
@@ -45,9 +45,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // datas 저장소에 들어가 있는 Music.Item 한개를 꺼낸다
-        holder.mItem = datas[position];
-        holder.mIdView.setText(holder.mItem.id);
-        holder.mContentView.setText(holder.mItem.title);
+        Music.Item item = datas.get(position);
+        holder.mIdView.setText(item.id);
+        holder.mContentView.setText(item.title);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,14 +59,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public Music.Item mItem; // 미리 아이템에 해당하는 데이터를 몰아넣고 화면에 보이지않는 데이터를 넣는다
+
 
         public ViewHolder(View view) {
             super(view);
