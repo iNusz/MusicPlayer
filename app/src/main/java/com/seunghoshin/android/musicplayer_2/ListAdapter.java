@@ -1,11 +1,14 @@
 package com.seunghoshin.android.musicplayer_2;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.seunghoshin.android.musicplayer_2.ListFragment.OnListFragmentInteractionListener;
 import com.seunghoshin.android.musicplayer_2.domain.Music;
 import com.seunghoshin.android.musicplayer_2.dummy.DummyContent.DummyItem;
@@ -14,15 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
  */
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     private final OnListFragmentInteractionListener mListener;
 
+    private Context context = null;
     // 데이터 저장소
     private final List<Music.Item> datas;
 
@@ -37,6 +42,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(context==null)
+            context = parent.getContext();
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item, parent, false);
         return new ViewHolder(view);
@@ -48,6 +55,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         Music.Item item = datas.get(position);
         holder.mIdView.setText(item.id);
         holder.mContentView.setText(item.title);
+        // holder.imgAlbum.setImageURI(datas.get(position).albumArt);
+
+        Glide.with(context)
+                .load(datas.get(position).albumArt) //로드 할 대상
+                .bitmapTransform(new CropCircleTransformation(context)) // 이미지를 동그랗게 보이주기
+                .into(holder.imgAlbum);             //이미지를 출력할 대상
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +80,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final ImageView imgAlbum;
 
 
         public ViewHolder(View view) {
@@ -73,6 +88,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
+            imgAlbum = (ImageView) view.findViewById(R.id.imgAlbum);
         }
 
         @Override

@@ -82,8 +82,8 @@ public class Music {
         public String artist;
         public String title;
 
-        Uri musicUri;
-        Uri albumArt;
+        public Uri musicUri;
+        public Uri albumArt;
 
     }
 
