@@ -126,6 +126,8 @@ private static void callInit(Activity activity){
 ```
 
 
+<br/>
+
 
 
 ##### CallBack
@@ -143,11 +145,15 @@ public interface CallBack {
 ```
 
 
+<br/>
+
 
 
 ## Music
 
 
+
+<br/>
 
 
 
@@ -218,4 +224,137 @@ private Uri makeAlbumUri(String albumId) {
   String albumUri = "content://media/external/audio/albumart/";
   return Uri.parse(albumUri + albumId);
 }
+```
+
+
+
+<br/>
+
+
+
+
+## Glide API 사용하기
+
+
+
+Glide를 쓰는 이유는 화면에 이미지를 로드할때 보이는것 대비 쓸데없이 큰 용량이 들어가기 때문에
+
+
+
+자칫하다간 앱이 다운될 수 있다. 이를 방지하기 위해서 Glide를 쓴다.
+
+
+
+<br/>
+
+
+
+#### Gradle에 추가하기
+
+
+
+
+
+3버전 중에 최신버전을 쓰겠다는 말이다.
+
+*는 3버전 전체를 가져온다는 뜻이다. 그래서 우리는 +를 써야한다
+
+```xml
+compile 'com.github.bumptech.glide:glide:3.+'
+```
+
+
+만약 이미지를 동그랗게 표현하고 싶으면 아래를 추가시킨다. (glide-transformations 구글링)
+
+
+
+```xml
+compile 'jp.wasabeef:glide-transformations:2.0.2'
+```
+
+
+
+
+#### 내용에 추가하기
+
+
+
+ListAdapter의 onBindViewHolder에 추가한다.
+
+
+
+이때 우리는 Adapter에서 context를 불러올 수 없기 때문에 전역변수로 context를 선언해주고
+
+
+
+onCreateViewHolder에서 context를 받아왔다. 계속받아오면 안되기 때문에 if절을 걸어뒀다.
+
+
+
+```java
+@Override
+public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  if(context==null)
+  context = parent.getContext();
+  View view = LayoutInflater.from(parent.getContext())
+  .inflate(R.layout.fragment_item, parent, false);
+  return new ViewHolder(view);
+}
+```
+
+
+
+```java
+public void onBindViewHolder(final ViewHolder holder, int position) {
+Glide.with(context)
+.load(datas.get(position).albumArt) //로드 할 대상
+.bitmapTransform(new CropCircleTransformation(context))
+.into(holder.imgAlbum);             //이미지를 출력할 대상
+}
+```
+
+
+#### 이미지가 깨져 보일 때
+
+
+
+scaleType=”centerCrop” 는 ImageView 의 크기에 이미지를 끼워 맞추는 옵션이다.
+
+
+
+
+좋은 옵션이지만 빈공간 없이 맞추기 때문에 가로/세로 균형이 맞지 않는다면 이미지가 찌그러져 보인다.
+
+
+
+
+
+```xml
+android:scaleType="centerCrop"
+```
+
+
+
+
+
+
+
+
+## 앱의 아이콘 바꾸기
+
+
+
+우리는 안드로이드의 아이콘을 평생 쓸 수 없음으로 바꿔줘야 한다.
+
+
+
+앱의 아이콘은 Manifest에 들어가서 바꿔주면 된다.
+
+
+
+```xml
+android:icon="@mipmap/ic_launcher"
+<!--위의 것을 아래와 같이 바꿔준다 -->
+android:icon="@mipmap/icon"
+<!-- 안에 이미지 파일은 원하는 id값을 넣어주면 된다. -->
 ```
