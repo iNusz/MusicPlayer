@@ -67,6 +67,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 .into(holder.imgAlbum);             //이미지를 출력할 대상
 
 
+        //pause 버튼의 보임 유무를 결정한다
+        if(datas.get(position).itemClicked){
+            holder.btnPause.setVisibility(View.VISIBLE);
+        }else{
+            holder.btnPause.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -114,6 +120,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     }
 
+    // 클릭된걸 알려주고 이전꺼는 지워버린다
+    public void setItemClicked(int position){
+        for(Music.Item item: datas){
+            item.itemClicked = false;
+        }
+        datas.get(position).itemClicked = true;
+        //리스트뷰 전체를 갱신해 준다.
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public int position; // 뷰홀더에서 왔다갔다하면 서로 다른 아이디를 갖기때문에 선언해줬다
         public final View mView;
@@ -134,9 +150,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    setItemClicked(position);
                     play(position);
                     btnPause.setImageResource(android.R.drawable.ic_media_pause); // 클릭했을때 플레이가 되면서 퍼즈버튼이 나온다
-                    btnPause.setVisibility(View.VISIBLE);
+                    //btnPause.setVisibility(View.VISIBLE);
+
                 }
             });
 

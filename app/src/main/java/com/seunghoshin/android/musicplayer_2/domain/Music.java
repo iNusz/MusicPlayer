@@ -85,6 +85,8 @@ public class Music {
         public Uri musicUri;
         public Uri albumArt;
 
+        public boolean itemClicked = false;
+
     }
 
     // Music id만 넘겨주면 Uri로 바뀌어서 다시 반환해주는 메소드이다
