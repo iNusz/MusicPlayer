@@ -12,18 +12,22 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.seunghoshin.android.musicplayer_2.domain.Music;
 
-public class PagerFragment extends Fragment {
+import java.util.Set;
+
+
+public class DetailFragment extends Fragment {
 
     ViewHolder viewHolder = null;
 
-    public PagerFragment() {
+    public DetailFragment() {
 
     }
 
 
-    public static PagerFragment newInstance() {
-        PagerFragment fragment = new PagerFragment();
+    public static DetailFragment newInstance() {
+        DetailFragment fragment = new DetailFragment();
         return fragment;
     }
 
@@ -36,6 +40,15 @@ public class PagerFragment extends Fragment {
         viewHolder = new ViewHolder(view); //todo return new ViewHolder(view) 하면 왜 안되는지..
         return view;
     }
+
+
+    public Set<Music.Item> getDatas(){
+        Music music = Music.getInstance();
+        music.loader(getContext());
+
+        return music.getItems();
+    }
+
 
     // ViewPager 의 View
     public class ViewHolder implements View.OnClickListener{
@@ -56,12 +69,18 @@ public class PagerFragment extends Fragment {
             current = (TextView) view.findViewById(R.id.current);
             duration = (TextView) view.findViewById(R.id.duration);
             setOnClickListener();
+            setViewPager();
         }
 
         private void setOnClickListener() {
             btnPlay.setOnClickListener(this);
             btnNext.setOnClickListener(this);
             btnPrev.setOnClickListener(this);
+        }
+
+        private void setViewPager(){
+            DetailAdapter adapter = new DetailAdapter(getDatas());
+            viewPager.setAdapter(adapter);
         }
 
         @Override
