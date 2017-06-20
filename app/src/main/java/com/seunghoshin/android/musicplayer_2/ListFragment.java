@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.seunghoshin.android.musicplayer_2.domain.Music;
-import com.seunghoshin.android.musicplayer_2.dummy.DummyContent.DummyItem;
 
 
 public class ListFragment extends Fragment {
@@ -66,6 +65,10 @@ public class ListFragment extends Fragment {
     }
 
 
+    /**
+     *
+     * @param context : Activity가 넘어온 것이다. 다형성 때문에 context를 받았다.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -85,6 +88,6 @@ public class ListFragment extends Fragment {
 
 
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(DummyItem item);
+        void goDetailInteraction();
     }
 }

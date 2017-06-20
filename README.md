@@ -500,3 +500,6 @@ android:icon="@mipmap/icon"
 
 
 - ImageView에서 adjustviewbounds는 이미지가 표현하고자 하는 레이아웃보다 클 때 비율 유지여부를 나타내는 것이다.
+
+
+- Fragment에서 Fragment interface를 활용한 Interaction 함수를 통해서 화면간의 이동이 가능하다.   
