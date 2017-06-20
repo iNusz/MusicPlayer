@@ -256,8 +256,8 @@ Glide를 쓰는 이유는 화면에 이미지를 로드할때 보이는것 대�
 
 
 3버전 중에 최신버전을 쓰겠다는 말이다.
-
-*는 3버전 전체를 가져온다는 뜻이다. 그래서 우리는 +를 써야한다
+     *
+별표 는 3버전 전체를 가져온다는 뜻이다. 그래서 우리는 +를 써야한다
 
 ```xml
 compile 'com.github.bumptech.glide:glide:3.+'
@@ -358,3 +358,23 @@ android:icon="@mipmap/ic_launcher"
 android:icon="@mipmap/icon"
 <!-- 안에 이미지 파일은 원하는 id값을 넣어주면 된다. -->
 ```
+
+
+
+<br/>
+
+
+
+
+## Tip
+
+
+- Framelayout 에서 LinearLayout으로 바꿀 때에는 android:orientation="vertical || horizon"을 추가시켜야 한다.
+
+
+
+- ViewPager을 추가하고 싶으면 xml에가서 타이핑을 쳐야 한다.
+
+
+
+- ImageView에서 adjustviewbounds는 이미지가 표현하고자 하는 레이아웃보다 클 때 비율 유지여부를 나타내는 것이다.

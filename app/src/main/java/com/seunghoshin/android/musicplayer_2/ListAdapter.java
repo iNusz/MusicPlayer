@@ -1,7 +1,6 @@
 package com.seunghoshin.android.musicplayer_2;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +20,8 @@ import java.util.List;
 import java.util.Set;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static com.seunghoshin.android.musicplayer_2.Player.playerStatus;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
@@ -57,6 +58,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         // datas 저장소에 들어가 있는 Music.Item 한개를 꺼낸다
         Music.Item item = datas.get(position);
         holder.position = position; //온클릭리스너를 클릭했을때 그당시의 포지션을 가지고 온다.
+        holder.musicUri = datas.get(position).musicUri;
         holder.mIdView.setText(item.id);
         holder.mContentView.setText(item.title);
         // holder.imgAlbum.setImageURI(datas.get(position).albumArt);
@@ -80,41 +82,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return datas.size();
     }
 
-    static final int STOP = 0;
-    static final int PLAY = 1;
-    static final int PAUSE = 2;
-    MediaPlayer player = null;
-    int playerStatus = STOP;
 
-
-    public void play(int position) {
-        // 1. 미디어 플레이어 사용하기
-        Uri musicUri = datas.get(position).musicUri;
-        // 음악재생의 중복 막아주기
-        if (player != null) {
-            player.release();
-        }
-        player = MediaPlayer.create(context, musicUri);
-
-        // 2. 설정
-        player.setLooping(false); //반복여부
-
-        // 3. 시작
-        player.start();
-
-        playerStatus = PLAY;
-
-    }
-
-    public void pause() {
-        player.pause();
-        playerStatus = PAUSE;
-    }
-
-    public void replay(){
-        player.start();
-        playerStatus = PLAY;
-    }
 
     public void goDetail(int position) {
 
@@ -138,6 +106,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         public final ImageView imgAlbum;
         public final ImageButton btnPause;
 
+
+        public Uri musicUri;
+
         public ViewHolder(View view) {
             super(view);
             mView = view;
@@ -151,7 +122,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     setItemClicked(position);
-                    play(position);
+                    Player.play(musicUri, mView.getContext());
                     btnPause.setImageResource(android.R.drawable.ic_media_pause); // 클릭했을때 플레이가 되면서 퍼즈버튼이 나온다
                     //btnPause.setVisibility(View.VISIBLE);
 
@@ -162,13 +133,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     switch (playerStatus) {
-                        case PLAY:
-                            pause();
+                        case Player.PLAY:
+                            Player.pause();
                             // pause 가 클릭되면 이미지 모양이 play로 바뀐다
                             btnPause.setImageResource(android.R.drawable.ic_media_play);
                             break;
-                        case PAUSE:
-                            replay();
+                        case Player.PAUSE:
+                            Player.replay();
                             btnPause.setImageResource(android.R.drawable.ic_media_pause);
                             break;
                     }
