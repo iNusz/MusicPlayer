@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.layout, fragment);
-        transaction.addToBackStack(null); // todo 왜 스택구조인가..
+        transaction.addToBackStack(null); // todo transaction 은 스택구조로 되어있다
         transaction.commit();
     }
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements
     // Fragment를 통해 Adapter까지 interface 를 전달하고
     // Adapter 에서 interface를 직접 호출해서 사용한다 .
     @Override
-    public void goDetailInteraction() {  // todo 인터페이스 공책보고 질문...
-        addFragment(DetailFragment.newInstance());
+    public void goDetailInteraction(int position) {  // todo 인터페이스 공책보고 질문...
+        addFragment(DetailFragment.newInstance(position));
     }
 }

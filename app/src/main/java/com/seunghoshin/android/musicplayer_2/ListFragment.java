@@ -88,6 +88,6 @@ public class ListFragment extends Fragment {
 
 
     public interface OnListFragmentInteractionListener {
-        void goDetailInteraction();
+        void goDetailInteraction(int position);
     }
 }

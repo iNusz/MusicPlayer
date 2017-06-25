@@ -85,7 +85,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
 
     public void goDetail(int position) {
-        mListener.goDetailInteraction();
+        mListener.goDetailInteraction(position);
     }
 
     // 클릭된걸 알려주고 이전꺼는 지워버린다
